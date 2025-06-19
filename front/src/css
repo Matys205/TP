@@ -1,0 +1,316 @@
+:root {
+  --color-primario: #000000;
+  --color-secundario: #031602;
+  --color-fondo: #031607;
+  --color-texto: #015001;
+  --color-hover: #b62b2b;
+}
+
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100vw; /* ✅ Ocupa todo el ancho */
+  height: 100vh; /* ✅ Ocupa toda la altura */
+}
+
+.navbar-logo {
+  color: #00ac0e !important;
+  text-decoration: none !important;
+  font-weight: bold;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  text-shadow: 0 0 5px #00ffcc88;
+}
+.navbar-logo:hover {
+  color: #66ffe5 !important;
+  transform: scale(2); /* leve agrandamiento */
+}
+
+
+/* ✅ Ajuste para que el Navbar ocupe toda la pantalla */
+.navegacion {
+  background-color: var(--color-secundario);
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  height: auto; /* ✅ Permite que crezca según el contenido */
+  min-height: 100px; /* ✅ Asegura un mínimo */
+}
+/* ✅ Ajuste para la sección de botones en el Navbar */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* ✅ Ajuste para distribuir eventos sin centrarlos */
+.eventos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 25px;
+  width: 100vw;
+}
+
+.detalles{
+  padding: 5%;
+  margin-top: 3%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90vw;
+}
+
+.detalles-botones{
+  display: flex;
+  width: 10%; 
+ 
+  justify-content: end;
+  gap: 10%;
+
+
+}
+
+/* ✅ Pie de página ocupa todo el ancho */
+.piePagina {
+  width: 100vw;
+  bottom: 0;
+  background-color: #000000;
+  color: rgb(5, 20, 1);
+  text-align:center;
+  padding: 3px;
+  position:fixed;
+}
+
+/* Footer */
+footer {
+  padding: 8px 0;
+  height: 40px;
+  font-size: 0.95rem;
+  background: #222;
+  color: #070606;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* tarjetas de eventos */
+
+.card {
+  border-radius: 12px !important; /* Bordes más redondeados */
+  box-shadow: 0 6px 15px rgba(37, 27, 27, 0.1) !important; /* Sombra más suave */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  object-fit: cover;
+}
+
+.card-title {
+  color: var(--color-primario);
+  font-weight: 600;
+}
+
+.card-text p {
+  margin-bottom: 5px;
+  color: var(--color-texto);
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: var(--color-primario);
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-hover);
+}
+.card {
+  max-width: 25rem;
+  width: 75%;
+}
+
+
+/*modifica el boton agregar eventos y */
+
+.boton-agregar {
+  background-color: #0e0a0a !important; /* verde */
+  color: rgb(6, 134, 44) !important;
+  padding: 3px 3px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 4px rgba(0, 190, 57, 0.3);
+  transition: background-color 0.6s ease;
+}
+
+/* Ejemplo para un formulario modal */
+.formulario-agregar-evento {
+  width: 350px;
+  height: 520px; /* Más alto para que quepan todos los campos */
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: 4px auto 40px auto; /* 5px arriba, 40px abajo */
+  padding: 24px 20px;
+  border-radius: 12px;
+  background: #3b4139;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 10px;
+  overflow-y: auto; /* Permite scroll si hay muchos campos */
+}
+
+.formulario-agregar-evento label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  font-style: normal;
+  color: var(--color-fondo);
+  margin-bottom: 4px;
+}
+
+.formulario-agregar-evento input {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #c20000;
+  margin-top: 2px;
+  font-size: 1rem;
+}
+
+.formulario-agregar-evento button {
+  margin-top: 10px;
+  padding: 8px 0;
+  border-radius: 6px;
+  border: none;
+  background: #060f08;
+  color: #00a716;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* --- MEJORAS Y AGREGADOS --- */
+
+/* Responsive para cards y formularios */
+@media (max-width: 768px) {
+  .card {
+    width: 98% !important;
+    max-width: 100vw !important;
+    margin: 0 auto 1rem auto;
+  }
+  .formulario-agregar-evento {
+    width: 98vw;
+    min-width: 0;
+    padding: 12px 6px;
+  }
+  .eventos-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+/* Mejoras para botones */
+button,
+.btn {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.btn-success,
+.btn-success:focus {
+  background-color: #198754 !important;
+  border: none !important;
+}
+.btn-success:hover {
+  background-color: #146c43 !important;
+}
+
+.btn-danger,
+.btn-danger:focus {
+  background-color: #3b5968 !important;
+  border: none !important;
+}
+.btn-danger:hover {
+  background-color: #b71c1c !important;
+}
+
+/* Toasts personalizados */
+.toast {
+  border-radius: 8px !important;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Mejoras para tablas */
+.table {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.table th, .table td {
+  vertical-align: middle !important;
+}
+
+/* Mejoras para inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  border-radius: 6px !important;
+  border: 1px solid #bdbdbd !important;
+  font-size: 1rem !important;
+  padding: 7px 10px !important;
+  background: #f8f9fa !important;
+  color: #222 !important;
+}
+
+/* Mejoras para el buscador */
+input[aria-label="Buscar evento"],
+input[aria-label="Buscar usuario"] {
+  background: #fff !important;
+  border: 1.5px solid #1976d2 !important;
+  color: #222 !important;
+}
+
+/* Mejoras para el footer en mobile */
+@media (max-width: 600px) {
+  .piePagina, footer {
+    font-size: 0.85rem;
+    padding: 8px 2px;
+    min-height: 32px;
+  }
+}
+
+/* Puedes poner esto en App.css o index.css */
+.card-evento {
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.card-evento:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+}
+
+/* --- FIN DE MEJORAS --- */
