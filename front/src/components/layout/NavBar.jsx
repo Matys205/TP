@@ -87,9 +87,9 @@ const NavBar = ({ buscar, setBuscar }) => {
 
           {usuario ? (
             <>
-              <div className="text-muted">
+              <div className="text-muted fw-semibold">
                 <FaUserShield className="me-1" />
-                {usuario.nombre} ({usuario.role})
+                Bienvenido, {usuario?.nombre || "Usuario"}
               </div>
 
               {isAdmin || isSuper ? (

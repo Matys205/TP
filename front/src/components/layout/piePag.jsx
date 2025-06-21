@@ -24,7 +24,7 @@ const PiePagina = () => {
           <FaUser /> Lorenzo
         </span>
         <a
-          href="https://github.com/tu-repo"
+          href="https://github.com/Matys205/TP"
           target="_blank"
           rel="noopener noreferrer"
           className="text-light ms-4 d-flex align-items-center gap-2"

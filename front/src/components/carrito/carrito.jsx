@@ -87,7 +87,7 @@ const Carrito = () => {
     // Por cada evento en el carrito, registrar una venta
     try {
       for (const evento of carrito) {
-        await fetch("http://localhost:3001/api/ventas/registrar", {
+        await fetch("http://localhost:3001/api/pago/registrar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

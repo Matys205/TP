@@ -3,6 +3,7 @@ import CardEventos from "../cardEventos/CardEventos";
 import { getEventos, modificarEvento } from "../../../services/api";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Toast from "react-bootstrap/Toast";
 import FormularioEditarEvento from "./FormularioEditarEvento";
 import Detalles from "./Detalles";
 
@@ -13,12 +14,11 @@ const MostrarEventos = ({ buscar }) => {
   const [showModal, setShowModal] = useState(false);
   const [eventoDetalles, setEventoDetalles] = useState(null);
   const [showDetalles, setShowDetalles] = useState(false);
-
-  const [eventoAEliminar, setEventoAEliminar] = useState(null); // ✅ nuevo
-  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false); // ✅ nuevo
+  const [eventoAEliminar, setEventoAEliminar] = useState(null);
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
+  const [toastGuardado, setToastGuardado] = useState(false);
 
   useEffect(() => {
-    
     cargarEventos();
   }, []);
 
@@ -38,9 +38,13 @@ const MostrarEventos = ({ buscar }) => {
     const res = await modificarEvento(eventoActualizado);
     if (res.success) {
       setEventos((prev) =>
-        prev.map((ev) => (ev.id === eventoActualizado.id ? eventoActualizado : ev))
+        prev.map((ev) =>
+          ev.id === eventoActualizado.id ? eventoActualizado : ev
+        )
       );
       setShowModal(false);
+      setToastGuardado(true);
+      setTimeout(() => setToastGuardado(false), 3000);
       if (eventoDetalles && eventoDetalles.id === eventoActualizado.id) {
         setEventoDetalles(eventoActualizado);
       }
@@ -92,7 +96,6 @@ const MostrarEventos = ({ buscar }) => {
   );
 
   return (
-    
     <div className="px-4 pb-5">
       {cargando ? (
         <div
@@ -107,9 +110,7 @@ const MostrarEventos = ({ buscar }) => {
           <p className="mt-4 fs-5">Cargando eventos...</p>
         </div>
       ) : (
-        <div
-          className="eventos-grid"
-        >
+        <div className="eventos-grid">
           {eventosFilt.length > 0 ? (
             eventosFilt.map((evento) => (
               <CardEventos
@@ -198,6 +199,25 @@ const MostrarEventos = ({ buscar }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Toast de confirmación visual */}
+      <Toast
+        show={toastGuardado}
+        onClose={() => setToastGuardado(false)}
+        delay={3000}
+        autohide
+        bg="success"
+        style={{
+          position: "fixed",
+          bottom: 20,
+          right: 20,
+          zIndex: 1055,
+          minWidth: 200,
+          color: "white",
+        }}
+      >
+        <Toast.Body className="fw-semibold">✅ Cambios guardados correctamente</Toast.Body>
+      </Toast>
     </div>
   );
 };
