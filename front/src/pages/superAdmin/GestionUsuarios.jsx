@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Button, Table, Modal, Spinner, Alert } from "react-bootstrap";
-import { getUsuarios, eliminarUsuario } from "../../services/api";
+import { Button, Table, Modal, Spinner, Alert, Form } from "react-bootstrap";
+import { asignarRol, getUsuarios, eliminarUsuario } from "../../services/api";
 import BuscadorUsuarios from "./BuscadorUsuarios";
 import FormularioRoles from "./FormularioRoles"; // ✅ correcto
 import { FaTrash } from "react-icons/fa";
+import distintosRoles from "../../data/roles";
+
 
 const GestionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -13,6 +15,14 @@ const GestionUsuarios = () => {
   const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [buscar, setBuscar] = useState("");
+
+
+
+//
+const [rolesSeleccionados, setRolesSeleccionados] = useState({});
+const [enviando, setEnviando] = useState({});
+const [mensajesRol, setMensajesRol] = useState({});
+///
 
   const cargarUsuarios = async () => {
     setCargando(true);
@@ -54,6 +64,7 @@ const GestionUsuarios = () => {
     `${u.nombre} ${u.correo}`.toLowerCase().includes(buscar.toLowerCase())
   );
 
+  
   return (
     <div className="container mt-4">
       <h3 className="mb-4">Gestión de Usuarios</h3>
@@ -77,29 +88,112 @@ const GestionUsuarios = () => {
               <th>Nombre</th>
               <th>Correo</th>
               <th>Rol</th>
+              <th>Cambiar Rol</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {usuariosFiltrados.map((u) => (
-              <tr key={u._id || u.id}>
-                <td>{u.nombre}</td>
-                <td>{u.correo}</td>
-                <td>{u.role}</td>
-                <td>
-                  <Button
-                    variant="danger"
+  {usuariosFiltrados.map((u) => {
+    const id = u._id || u.id;
+    const rolSeleccionado = rolesSeleccionados[id] || "";
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      setError(null);
+      setEnviando((prev) => ({ ...prev, [id]: true }));
+
+      try {
+        const result = await asignarRol(id, rolSeleccionado);
+        if (result.success) {
+          setMensajesRol((prev) => ({
+            ...prev,
+            [id]: `✅ Rol "${rolSeleccionado}" asignado a ${u.nombre}`,
+          }));
+          setRolesSeleccionados((prev) => ({ ...prev, [id]: "" }));
+          cargarUsuarios();
+        } else {
+          setError(result.error || "Error al asignar el rol.");
+        }
+      } catch {
+        setError("Error al asignar el rol. Intenta nuevamente.");
+      } finally {
+        setEnviando((prev) => ({ ...prev, [id]: false }));
+        setTimeout(() => {
+          setMensajesRol((prev) => ({ ...prev, [id]: null }));
+        }, 3000);
+      }
+    };
+
+    return (
+      <tr key={id}>
+        <td>{u.nombre}</td>
+        <td>{u.correo}</td>
+        <td>{u.role}</td>
+        <td>
+          <Form onSubmit={handleSubmit}>
+            <Form.Select
+              value={rolSeleccionado}
+              onChange={(e) =>
+                setRolesSeleccionados((prev) => ({
+                  ...prev,
+                  [id]: e.target.value,
+                }))
+              }
+              disabled={enviando[id]}
+              required
+            >
+              <option value="">Selecciona un rol...</option>
+              {distintosRoles.map((rolItem) => (
+                <option key={rolItem.id} value={rolItem.value}>
+                  {rolItem.roleName}
+                </option>
+              ))}
+            </Form.Select>
+
+            <Button
+              className="mt-2"
+              variant="secondary"
+              type="submit"
+              disabled={!rolSeleccionado || enviando[id]}
+              style={{ minWidth: 140 }}
+            >
+              {enviando[id] ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
                     size="sm"
-                    onClick={() => confirmarEliminacion(u)}
-                    title="Eliminar usuario"
-                  >
-                    <FaTrash className="me-1" />
-                    Eliminar
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+                    role="status"
+                    aria-hidden="true"
+                    className="me-2"
+                  />
+                  Asignando...
+                </>
+              ) : (
+                "Asignar Rol"
+              )}
+            </Button>
+
+            {mensajesRol[id] && (
+              <div className="text-success mt-2">{mensajesRol[id]}</div>
+            )}
+          </Form>
+        </td>
+        <td>
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => confirmarEliminacion(u)}
+            title="Eliminar usuario"
+          >
+            <FaTrash className="me-1" />
+            Eliminar
+          </Button>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
         </Table>
       )}
 
